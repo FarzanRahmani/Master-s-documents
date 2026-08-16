@@ -1,0 +1,443 @@
+\documentclass[a4paper]{article}
+%To  colorize table
+\usepackage[table]{xcolor}
+\usepackage[a4paper, total={7in, 11.0in},includefoot, includehead, headsep=24pt, headheight=4cm]{geometry}
+\usepackage{layout}%No need for this package at production.
+\usepackage{setspace}%For switch between line spacing.
+\usepackage{graphicx}
+%For drawing lines and arbitrary shapes:
+\usepackage{tikz}
+%To set fixed length for table: 
+\usepackage{array}
+\usepackage{ifthen}
+%To draw squares:
+\usepackage{amssymb}
+%To trim strings:
+\usepackage{trimspaces}
+\usepackage{ifthen}
+%To draw dynamic multi-column table:
+\usepackage{etoolbox}
+%For references:
+\usepackage[
+    backend=biber,
+    sorting=ydnt,
+    style=ieee
+]{biblatex}
+
+
+\addbibresource{references.bib}
+
+%List of needed counters:
+\newcounter{length}
+\newcounter{itemCount}
+
+
+\title{Proposal}
+\author{Name}
+\date{\today}
+
+\newcommand{\blankField}{ $\ldots\ldots\ldots\ldots\ldots$}
+\makeatletter
+\newcommand{\trim}[1]{\trim@spaces@noexp{#1}}
+\makeatother
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{
+    \begin{tabular}{c}
+         \includegraphics[width=3cm, height=3cm]{./logo-fa-IR.png}\\
+    \end{tabular}
+}
+\chead{
+    \setstretch{2}
+    بسمه تعالی \\
+    دانشکده مهندسی کامپیوتر \\
+    \textbf{\large فرم تعریف پروژه کارشناسی ارشد}
+}
+
+\lhead{
+    \ifthenelse{\isodd{\value{page}}}
+        {
+            \setstretch{1.5}
+            \begin{tabular}{c c}
+                تاریخ: & \blankField \\
+                شماره: & \blankField\\
+                پیوست: & \blankField
+                
+                % \blankField & تاریخ: \\
+                % \blankField & شماره:\\
+                % \blankField & پیوست:
+            \end{tabular}
+        }
+        {
+            \setstretch{1.5}
+            \begin{tabular}{c c}
+                تاریخ: & \blankField \\
+                شماره: & \blankField\\
+                پیوست: & \blankField
+                
+                % \blankField & تاریخ: \\
+                % \blankField & شماره:\\
+                % \blankField & پیوست:
+            \end{tabular}
+        }
+}
+
+%Improvement: take advantages of the optional parameters! Currently I don't have any time to learn and implement it.
+\newcommand{\Information}[9]{
+{
+    \setstretch{1.5}
+    \small
+    \bfseries
+    \begin{tabular}{r r r}
+         نام و نام خانوادگی: #1
+         &
+         شماره دانشجویی: #2
+         &
+         معدل: #3
+         \\
+         گرایش: #4
+         &
+         تعداد واحدهای گذرانده: #5
+         &
+         استاد راهنما: #6
+         \\
+         استاد راهنمای همکار: #7
+         &
+         تعداد واحد پروژه: #8
+         &
+         استاد ممتحن: #9
+    \end{tabular}
+}
+}
+\newcommand{\Title}[3]{
+    {
+    \setstretch{1.5}
+    \bfseries
+    \noindent
+    عنوان کامل پروژه:
+    
+    فارسی: #1
+    
+    انگلیسی:
+    \lr{#2}\\
+    
+    \noindent
+    نوع پروژه:\;
+    \begin{tabular}{m{10em} m{10em}}
+        کاربردی:
+        \ifthenelse{#3 = 0 \or #3 = 2}{
+            $\blacksquare$
+        }{
+            $\square$
+        }
+        &
+        نظری:
+        \ifthenelse{#3 = 1 \or #3 = 2}{
+            $\blacksquare$
+        }{
+            $\square$
+        }
+    \end{tabular}
+    }
+}
+\newcommand{\Description}[2]{
+    {
+        \setstretch{1.5}
+        \noindent
+        \textbf{شرح مختصر پروژه:}
+        \textbf{
+        (با تأکيد بر اهمیت موضوع، مشکلات موجود، تعریف مسئله، کاربردها، دادگان مورد استفاده (در صورت نیاز) و نحوه ارزیابی در حدود 250 کلمه)
+        }
+        \noindent
+        
+        #1
+        
+        \vspace{20pt}
+        
+        \setcounter{length}{0}
+        \setcounter{itemCount}{0}
+        %First obtain the length of field
+        \foreach\x in#2{%
+            \addtocounter{length}{1}
+        }
+        
+        \textbf{کلمات کلیدی:}\;
+        \foreach\x in#2{%
+            \addtocounter{itemCount}{1}
+            \trim{\x}
+            \ifthenelse{\thelength = \theitemCount}{}{-}
+        }
+        \vspace{1em}
+    }
+}
+
+\makeatletter
+\newcommand{\ProgressTable}[1]{
+{
+    \noindent
+    \textbf{مراحل انجام پروژه و زمان‌بندی آن:}
+    \\
+    
+    \def\tableData{}
+    
+    \foreach \x\y\z in #1{
+        \protected@xappto\tabledata{ \x & \y & \z\\ \noexpand\hline}
+    }
+    
+    %Add space to each row in table:
+    \renewcommand{\arraystretch}{1.5}
+    \begin{center}
+    \begin{tabular}{| c | m{0.8\textwidth} | c |}
+        \hline
+        \tabledata
+    \end{tabular}
+    %Add space to each row in table:
+        
+    \end{center}
+    \renewcommand{\arraystretch}{1}
+}
+    
+}
+\makeatother
+
+\newcommand{\References}{
+{
+    \noindent
+    \nocite{*}
+    \textbf{مراجع:}
+    \begin{latin}
+        \printbibliography[heading=none]
+    \end{latin}
+}
+}
+\newcommand{\Courses}[1]{
+{
+    \noindent
+    \textbf{دروس مورد نیاز:}\\
+    
+    %Not completed yet.
+    \centering
+    %Add space to each row in table:
+    \renewcommand{\arraystretch}{1.5}
+    \begin{center}
+    \begin{tabular}{| >{\centering}m{6em} | >{\centering}m{3em} | >{\centering}m{6em} | >{\centering}m{6em} | >{\centering}m{3em} | >{\centering\arraybackslash}m{6em} |}
+         \hline
+         \rowcolor{lightgray}
+         \multicolumn{3}{|c|}{جبرانی}
+         &
+         \multicolumn{3}{|c|}{تخصصی
+            \tiny
+            (ارتباط موضوع پروژه با دروسی که دانشجو گذرانده یا باید بگذراند)
+         }
+         \\
+         \hline
+         \rowcolor{lightgray}
+         گذرانده
+         &
+         نمره
+         &
+         باید بگذراند
+         &
+         گذرانده
+         &
+         نمره
+         &
+         باید بگذراند
+         \\
+         \hline
+         &
+         &
+        %  جبر خطی
+         &
+         یادگیری ماشین
+         &
+         20
+         &
+         \\
+         \hline
+         &
+         &
+         &
+         تحلیل هوشمند تصاویر زیست پزشکی
+         &
+         20
+         &
+         \\
+         \hline
+         &
+         &
+         &
+         &
+         &
+         \\
+         \hline
+    \end{tabular}
+    \end{center}
+    %Add space to each row in table:
+    \renewcommand{\arraystretch}{1}
+}
+}
+\newcommand{\Signatures}{
+{
+    %Add space to each row in table:
+    \renewcommand{\arraystretch}{1.5}
+    
+    \begin{center}
+        \scriptsize
+        \begin{tabular}{|m{15em}|m{15em}|m{15em}|}
+            \hline
+            استاد راهنما:
+            &
+            نظر گروه:
+            &
+            نظر کمیته تحصیلات تکمیلی دانشکده:
+            \\
+            تاریخ تحویل فرم به مدیر گروه:
+            &
+            &
+            \\
+            امضای استاد راهنما:
+            &
+            تاریخ جلسه گروه:
+            &
+            تاریخ جلسه کمیته:
+            \\ 
+            &
+            امضای مدیر گروه:
+            &
+            امضای معاون تحصیلات تکمیلی:
+            \\
+            &
+            &
+            \\
+            &
+            &
+            \\
+            & &\\
+            & &\\
+            \hline
+        \end{tabular}
+    \end{center}
+    \footnotesize
+    توجه: فرم تعریف پروژه بایستی یک روز قبل از جلسه گروه توسط استاد راهنما تحویل مدیر گروه شود.
+    %Add space to each row in table:
+    \renewcommand{\arraystretch}{1}
+}
+}
+
+%\renewcommand{\headrulewidth}{0pt}
+%\renewcommand{\footrulewidth}{0pt}
+
+\usepackage{xepersian}
+\settextfont[
+Scale=1.35,
+Extension=.ttf, 
+Path=./,
+BoldFont=bmitrabd
+]{bmitra}
+
+\begin{document}
+
+%First parameter: Name of student(Your name)
+%Second parameter: Student Number
+%Third parameter: Student's GPA
+%Fourth parameter: Student's Major
+%Fifth parameter: Student's passed courses credits.
+%Sixth parameter: Project Supervisor.
+%Seventh parameter: Project Co-Supervisor
+%Eighth parameter: Project Credits.
+%Ninth parameter: Project Examiner
+\Information{
+    فرزان رحمانی
+}{
+    403210725
+}{
+    20/00
+}{
+    هوش مصنوعی و رباتیکز
+}{
+    9
+}{
+    دكتر محمد حسین رهبان
+}{
+    -
+}{
+    6
+}{
+    نام استاد ممتحن
+}
+
+\noindent
+
+%First parameter: Title of your project in Persian.
+%Second parameter: Title of your project in English.
+%Third parameter: Type of your project =>
+%   0: Practical.
+%   1: Theoretical.
+%   2: Both practical & theoretical
+\Title{
+    پیش‌بینی بیش‌برازش فاجعه‌بار در آموزش تخاصمی سریع
+}{
+    Predicting Catastrophic Overfitting in Fast Adversarial Training
+}{
+    2 % but maybe 2 is more suitable
+}
+
+\noindent
+
+\Description{
+‫    شبکه‌های عصبی عمیق همچنان در برابر حملات خصمانه (\lr{Adversarial Attacks}) بسیار آسیب‌پذیر هستند - اختلالات کوچک و با دقت طراحی شده که عملکرد مدل را به طور قابل توجهی کاهش می‌دهند. آموزش خصمانه (\lr{AT})، به ویژه با استفاده از روش‌های چند مرحله‌ای مانند \lr{PGD}، مؤثر اما از نظر محاسباتی پرهزینه است. آموزش خصمانه سریع (\lr{FAT})، با استفاده از \lr{FGSM} تک مرحله‌ای، سرعت و هزینه کم محاسباتی را ارائه می‌دهد اما از بیش‌برازش فاجعه‌بار (\lr{Catastrophic Overfitting}) رنج می‌برد: مدل‌ها پس از چند دوره (\lr{epoch}) آموزشی، به طور ناگهانی در برابر حملات چند مرحله‌ای، استحکام خود را از دست می‌دهند.
+
+این پروژه پیش‌بینی کارآمد وقوع بیش‌برازش فاجعه‌بار در \lr{FAT} را بررسی می‌کند. با وجود روش‌های جلوگیری کننده موجود - مانند \lr{GradAlign}، \lr{FGSM} با نویز اضافه، \lr{N-FGSM} و \lr{AAER} - اثربخشی آنها در مجموعه‌داده‌ها و معماری‌های گوناگون متناقض است و اغلب به روش‌های اکتشافی گران‌قیمت نیاز دارند. چالش اصلی پیش‌بینی زمان و دلیل وقوع بیش‌برازش فاجعه‌بار است، نه صرفاً واکنش پس از وقوع آن.
+
+ما پیشنهاد می‌کنیم در طول آموزش، معیارهای پیش‌بینی‌کننده‌ای ایجاد کنیم که بیش‌برازش فاجعه‌بار قریب‌الوقوع را نشان دهند. این موارد ممکن است شامل تناظر گرادیان (\lr{gradient alignment})، الگوهای گرادیان، تجزیه و تحلیل دینامیک‌های آموزش یا معیارهای انحنای مشتق شده از تجزیه و تحلیل چشم‌انداز تابع زیان (\lr{loss landscape}) باشد. با استفاده از مجموعه داده‌های معیار مانند \lr{CIFAR-10/100} و \lr{Tiny‑ImageNet} با معماری‌های استاندارد (مثلاً انواع \lr{ResNet})، این شاخص‌ها را در کنار معیارهای دقت مستحکم (\lr{robust accuracy}) پیگیری خواهیم کرد.
+
+کاربردها: با پیش‌بینی بیش‌برازش فاجعه‌بار، الگوریتم‌های آموزشی می‌توانند به صورت پویا ابرپارامترها، میزان منظم‌سازی (\lr{regularization}) یا مراحل اختلال (\lr{perturbation stages}) را تنظیم کنند - که منجر به مدل‌های مستحکم‌تر و کارآمدتر می‌شود. این امر پیامدهای مستقیمی در کاربردهای حساس به امنیت مانند سیستم‌های خودمختار، تشخیص پزشکی و امور مالی دارد.
+
+ارزیابی: این پروژه پیش‌بینی‌های ما از بیش‌برازش فاجعه‌بار را در برابر رویدادهای واقعی بیش‌برازش فاجعه‌بار در مجموعه‌داده‌های اعتبارسنجی، با استفاده از معیارهایی مانند میزان دقت و مقادیر تابع ضرر در حملات تک مرحله‌ای مانند \lr{FGSM} و حملات چند مرحله‌ای مانند \lr{PGD}، محک خواهد زد. موفقیت با زمان هشدار زود هنگام، کاهش وقوع بیش‌برازش فاجعه‌بار و بهبود در بده‌بستان دقت مستحکم-تمیز (\lr{robust‑clean accuracy trade-off}) اندازه‌گیری می‌شود.
+‫
+}{
+    {
+        \lr{Catastrophic Overfitting}
+        ,
+        \lr{Fast Adversarial Training (FAT)}
+        ,
+        \lr{Adversarial Robustness}
+    }
+}
+
+% \hfill \break % new line
+\newpage 
+
+%Table of progress:
+%   Pass line number, works and their duration in a comma delimited list.
+%   line number / work / duration ,
+%   example: 1 / read X / 1 year ,
+
+\ProgressTable{
+    {
+    ۱/مطالعه پژوهش‌های پیشین/۳ ماه,
+    ۲/بررسي نقاط ضعف روش‌ها و مدل‌های پیشین/۲ ماه,
+    ۳/طراحی ايده‌های جديد و پیاده‌سازی آن‌ها/۵ ماه,
+    ۴/بررسی و ارزيابی روش‌های ارائه شده/۲ ماه,
+    ۵/نگارش پايان‌نامه و دفاع از پروژه/۳ ماه
+    }
+}
+
+\noindent
+
+% Add our references in references,bib
+\References{}
+
+\noindent
+
+% Change \newcommand{\Courses} in the previous lines
+\Courses{}
+
+\noindent
+
+\Signatures{}
+
+\end{document}
