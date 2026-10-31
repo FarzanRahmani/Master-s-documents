@@ -12,12 +12,12 @@ echo Usage: build_documents.cmd [All^|Thesis^|Slides^|PersianSlides^|EnglishSlid
 exit /b 1
 
 :all
-call :build "%~dp0Master's Thesis - Farzan Rahmani" thesis
+call :build "%~dp0Master's Thesis - Farzan Rahmani\v2" thesis
 if errorlevel 1 exit /b 1
 goto slides
 
 :thesis
-call :build "%~dp0Master's Thesis - Farzan Rahmani" thesis
+call :build "%~dp0Master's Thesis - Farzan Rahmani\v2" thesis
 exit /b %errorlevel%
 
 :slides
