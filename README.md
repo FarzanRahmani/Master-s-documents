@@ -14,7 +14,8 @@ The thesis is titled **Predicting Catastrophic Overfitting in Fast Adversarial T
 
 | Directory or file | Contents |
 | --- | --- |
-| [Master's Thesis - Farzan Rahmani](Master's%20Thesis%20-%20Farzan%20Rahmani/) | Main thesis source, chapters, bibliography, figures, styles, and compiled `thesis.pdf` |
+| [Master's Thesis - Farzan Rahmani/v2](Master's%20Thesis%20-%20Farzan%20Rahmani/v2/) | Current thesis using the edited template, with sources and compiled `thesis.pdf` |
+| [Master's Thesis - Farzan Rahmani/v1](Master's%20Thesis%20-%20Farzan%20Rahmani/v1/) | Preserved thesis files and PDF from before the template migration |
 | [Master's Thesis Slides - Farzan Rahmani](Master's%20Thesis%20Slides%20-%20Farzan%20Rahmani/) | Persian and English Beamer defense presentations |
 | [Master's Thesis Proposal - Farzan Rahmani](Master's%20Thesis%20Proposal%20-%20Farzan%20Rahmani/) | Proposal source, with `main.tex` as its entry point |
 | [Master's Seminar - Farzan Rahmani](Master's%20Seminar%20-%20Farzan%20Rahmani/) | Seminar source and compiled `seminar.pdf` |
@@ -29,7 +30,7 @@ Use the compiled PDFs when you only need to read the work. Source directories pr
 
 ## Building the Thesis and Defense Slides
 
-Install a TeX distribution with **XeLaTeX**, **BibTeX**, Beamer, and the packages referenced by the sources. Persian documents use Persian typesetting support and font configuration; the thesis includes font files under `styles/fonts/`. Slides also reference TeX Gyre Termes and may use system-font fallbacks.
+Install a TeX distribution with **XeLaTeX**, **BibTeX**, Beamer, and the packages referenced by the sources. Persian documents use Persian typesetting support and font configuration; the current thesis includes font files under `Master's Thesis - Farzan Rahmani/v2/styles/fonts/`. Slides also reference TeX Gyre Termes and may use system-font fallbacks.
 
 From a Windows terminal in the repository root:
 
@@ -41,9 +42,9 @@ build_documents.cmd PersianSlides
 build_documents.cmd EnglishSlides
 ```
 
-Choose one command for the desired target. `All` builds the thesis and both defense slide decks. The script runs XeLaTeX, BibTeX, and three further XeLaTeX passes, stopping on a build error. It does not build the seminar or proposal.
+Choose one command for the desired target. `All` builds the `v2` thesis and both defense slide decks; `Thesis` builds only the `v2` thesis. The script runs XeLaTeX, BibTeX, and three further XeLaTeX passes, stopping on a build error. It does not build the seminar or proposal.
 
-For a manual thesis build, run the following in `Master's Thesis - Farzan Rahmani/`:
+For a manual thesis build, run the following in `Master's Thesis - Farzan Rahmani/v2/`:
 
 ```sh
 xelatex -interaction=nonstopmode -halt-on-error thesis.tex
@@ -57,4 +58,4 @@ Compile other documents from their own directories so relative image, font, and 
 
 ## Attribution and License
 
-See [LICENSE](LICENSE) for the repository license. The thesis uses Hamid Zarrabi-Zadeh's [Persian thesis template](https://github.com/zarrabi/thesis-template), licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); its attribution and license notices are preserved in the thesis sources and [template README](Master's%20Thesis%20-%20Farzan%20Rahmani/README.md). Published papers and other third-party material retain their applicable publication and reuse terms.
+See [LICENSE](LICENSE) for the repository license. The thesis uses Hamid Zarrabi-Zadeh's [Persian thesis template](https://github.com/zarrabi/thesis-template), licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); its attribution and license notices are preserved in the thesis sources and [template license](Master's%20Thesis%20-%20Farzan%20Rahmani/v2/LICENSE.md). Published papers and other third-party material retain their applicable publication and reuse terms.
