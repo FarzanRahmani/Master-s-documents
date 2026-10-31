@@ -1,0 +1,35 @@
+% -------------------------------------------------------
+%  Minimal Persian-command compatibility layer
+% -------------------------------------------------------
+%
+% The thesis originally depended on XePersian's legacy `localise=on`
+% option. Only the aliases used by this project are defined here, allowing
+% XePersian to be loaded without that version-sensitive option.
+
+% Persian compound command names in this project contain U+200C (ZWNJ).
+% Treat it as a letter, matching the behaviour of XePersian's old localise
+% layer, so names such as \بدون‌تورفتگی remain a single control sequence.
+\catcode"200C=11\relax
+
+% Core LaTeX commands used in the thesis sources.
+\let\شروع\begin
+\let\پایان\end
+\let\فصل\chapter
+\let\قسمت\section
+\let\زیرقسمت\subsection
+\let\مرجع\cite
+\let\رجوع\ref
+\let\برچسب\label
+\let\شرح\caption
+\let\فقره\item
+\let\کوچک\small
+\let\بدون‌تورفتگی\noindent
+\let\خط‌پر\hline
+
+% Environment names used through \شروع{...} and \پایان{...}.
+\newenvironment{شکل}{\begin{figure}}{\end{figure}}
+\newenvironment{لوح}{\begin{table}}{\end{table}}
+\newenvironment{جدول}{\begin{tabular}}{\end{tabular}}
+\newenvironment{فقرات}{\begin{itemize}}{\end{itemize}}
+\newenvironment{شمارش}{\begin{enumerate}}{\end{enumerate}}
+\newenvironment{وسط‌چین}{\begin{center}}{\end{center}}
